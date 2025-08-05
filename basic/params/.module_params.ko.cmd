@@ -1,0 +1,1 @@
+savedcmd_module_params.ko := ld -r -m elf_x86_64 -z noexecstack --no-warn-rwx-segments --build-id=sha1  -T /usr/src/linux-headers-6.14.0-27-generic/scripts/module.lds -o module_params.ko module_params.o module_params.mod.o .module-common.o
