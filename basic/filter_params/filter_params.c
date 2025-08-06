@@ -22,7 +22,7 @@ on module unload:
 	- print how many numbers passed the filter
 */
 
-static int count = 0; 
+static int count = 0;
 module_param(count, int, 0644);
 MODULE_PARM_DESC(count, "maintains the count of the number of ints that passed the filter\n");
 
@@ -48,10 +48,14 @@ static int validate_params(void) {
 	} else {
 		int i;
 		for (i = 0; i < arg_num; i++) {
-			if ((nums[i] & 1) == 1) {
-				// the number is odd...
-				pr_info("nums[%d] = %d\n", i, nums[i]);
-				count++;
+			if (strcmp("odd", mode) == 0) {
+				if ((nums[i] & 1) == 1) {
+					pr_info("nums[%d] = %d\n", i, nums[i]);
+			} else {
+				// if nums[i] is even...
+				if ((nums[i] & 1) == 1) {
+					pr_info("nums[%d] = %d\n", i, nums[i]);
+				}
 			}
 		}
 	}
@@ -60,7 +64,7 @@ static int validate_params(void) {
 }
 
 
-// INIT MODULE 
+// INIT MODULE
 static int  __init filter_init(void) {
 	pr_info("Loading modules with parameters...\n");
 
@@ -75,7 +79,7 @@ static int  __init filter_init(void) {
 
 	pr_info("Module Loaded Successfully.\n");
 	return 0;
-} 
+}
 
 
 // EXIT MODULE
