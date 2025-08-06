@@ -51,10 +51,15 @@ static int validate_params(void) {
 			if (strcmp("odd", mode) == 0) {
 				if ((nums[i] & 1) == 1) {
 					pr_info("nums[%d] = %d\n", i, nums[i]);
-			} else {
-				// if nums[i] is even...
-				if ((nums[i] & 1) == 1) {
+					count++;
+				}
+			}
+
+			 else {
+			// if nums[i] is even...
+				if (nums[i] % 2 == 0) {
 					pr_info("nums[%d] = %d\n", i, nums[i]);
+					count++;
 				}
 			}
 		}
@@ -65,7 +70,7 @@ static int validate_params(void) {
 
 
 // INIT MODULE
-static int  __init filter_init(void) {
+static int __init filter_init(void) {
 	pr_info("Loading modules with parameters...\n");
 
 	if (validate_params() != 0) {
