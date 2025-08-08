@@ -36,12 +36,19 @@ static int __init malloc_init(void) {
 	}
 
 	ptr2->version = 230;
-	strcpy(ptr2->test, "hi from the linux kernel module.");
+	strcpy(ptr2->text, "hi from the linux kernel module.");
 
-	printk("alloc_test - ptr2->version: %d\n", ptr2->version);
-	printk("alloc_test - ptr2->test: %s\n", ptr2->text);
+	printk("dyna_malloc - ptr2->version: %d\n", ptr2->version);
+	printk("dyna_malloc - ptr2->test: %s\n", ptr2->text);
 
-	return 0
+	return 0;
 }
 
+static void __exit malloc_exit(void) {
+	printk("dyna_malloc - ptr2->version: %d\n", ptr2->version);
+	printk("dyna_malloc - ptr2->text: %s\n", ptr2->text);
+	kfree(ptr2);
+}
 
+module_init(malloc_init);
+module_exit(malloc_exit);
