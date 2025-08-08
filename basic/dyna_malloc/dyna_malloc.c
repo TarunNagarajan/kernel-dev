@@ -29,7 +29,7 @@ static int __init malloc_init(void) {
 	printk("dyna_malloc - *ptr1: 0x%x\n", *ptr1);
 	kfree(ptr1);
 
-	ptr2 = kzalloc(sizeof(u32), GFP_KERNEL);
+	ptr2 = kzalloc(sizeof(struct driver_data), GFP_KERNEL);
 	if (ptr2 == NULL) {
 		printk("dyna_malloc out of memory.\n");
 		return -1;
