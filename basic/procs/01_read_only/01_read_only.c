@@ -9,7 +9,7 @@ MODULE_AUTHOR("runes");
 MODULE_LICENSE("GPL");
 MODULE_VERSION("0.1");
 
-#define PROC_NAME "01_proc_kernel"
+#define PROC_NAME "01_read_only"
 
 static int hello_show(struct seq_file* m, void* v) {
 	// seq_file* m is an opaque handle to the output buffer the kernel is building
