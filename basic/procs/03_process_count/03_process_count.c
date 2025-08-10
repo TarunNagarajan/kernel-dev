@@ -24,15 +24,19 @@ static int process_count_show(struct seq_file *m, void *v) {
 	return 0;
 }
 
-static const struct proc_ops process_count_fops {
-	.proc_show     = single_open,
+static int process_count_open(struct inode* inode, struct file* file) {
+	return single_open(file, process_count_show, NULL);
+}
+
+static const struct proc_ops process_count_fops = {
+	.proc_open     = process_count_open,
 	.proc_read     = seq_read,
 	.proc_lseek    = seq_lseek,
 	.proc_release  = single_release,
 };
 
 static int __init process_count_module_init(void) {
-	if (!PROC_CREATE(PROC_NAME, 0, NULL, &process_count_fops)) {
+	if (!proc_create(PROC_NAME, 0, NULL, &process_count_fops)) {
 		pr_err("Failed to create /proc/%s.\n", PROC_NAME);
 		return -ENOMEM;
 	}
