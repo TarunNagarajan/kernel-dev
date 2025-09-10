@@ -13,8 +13,11 @@ MODULE_VERSION("1.0");
 
 static struct proc_dir_entry* proc_entry;
 
-static const char* get_task_state_name(long state) {
-	switch(state) {
+static const char* get_task_state_name(struct task_struct* task) {
+	if (task->exit_state == EXIT_ZOMBIE) return "Zombie";
+	if (task->exit_state == EXIT_DEAD)   return "Dead";
+
+	switch(task->state) {
 		case TASK_RUNNING:
 			return "Running";
 		case TASK_INTERRUPTIBLE:
@@ -39,7 +42,7 @@ static int proc_show(struct seq_file* m, void* v) {
 	rcu_read_lock();
 
 	for_each_process(task) {
-		seq_printf(m, "%d\t%-15s\t%-10s\t%d\t%d\n", task->pid, task->comm, get_task_state_name(task->state), task->real_parent->pid, task->prio);
+		seq_printf(m, "%d\t%-15s\t%-10s\t%d\t%d\n", task->pid, task->comm, get_task_state_name(task->state), rcu_dereference(task->real_parent)->pid, task->prio);
 	}
 
 	rcu_read_unlock();
