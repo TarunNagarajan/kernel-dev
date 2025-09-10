@@ -1,4 +1,4 @@
-obj-m += process-monitor.o
+obj-m += state-monitor.o
 
 WSL2_KERNEL := $(HOME)/WSL2-Linux-Kernel
 KDIR := $(WSL2_KERNEL)
