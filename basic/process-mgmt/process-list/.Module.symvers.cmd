@@ -1,0 +1,1 @@
+savedcmd_/home/runes/kernel-dev/kernel-dev/basic/process-mgmt/process-list/Module.symvers :=  scripts/mod/modpost -M -m       -o /home/runes/kernel-dev/kernel-dev/basic/process-mgmt/process-list/Module.symvers -T /home/runes/kernel-dev/kernel-dev/basic/process-mgmt/process-list/modules.order -i Module.symvers -e 
