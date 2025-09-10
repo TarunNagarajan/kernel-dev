@@ -8,7 +8,7 @@
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("runes");
-MODULE_DESCRIPTION("process-mgmt: simple process state monitor"):
+MODULE_DESCRIPTION("process-mgmt: simple process state monitor");
 MODULE_VERSION("1.0");
 
 static struct proc_dir_entry* proc_entry;
@@ -37,12 +37,12 @@ static int proc_show(struct seq_file* m, void* v) {
 	struct task_struct* task;
 
 	seq_printf(m, "PID\tCOMM\t\tSTATE\t\tPPID\t\tPRIO\n");
-	seq_printf(m, "---\t----\t\tSTATE\t\tPPID\t\tPRIO\n");
+	seq_printf(m, "---\t---------------\t\tSTATE\t\tPPID\t\tPRIO\n");
 
 	rcu_read_lock();
 
 	for_each_process(task) {
-		seq_printf(m, "%d\t%-15s\t%-10s\t%d\t%d\n", task->pid, task->comm, get_task_state_name(task->state), rcu_dereference(task->real_parent)->pid, task->prio);
+		seq_printf(m, "%d\t%-15s\t%-10s\t%d\t%d\n", task->pid, task->comm, get_task_state_name(task), rcu_dereference(task->real_parent)->pid, task->prio);
 	}
 
 	rcu_read_unlock();
