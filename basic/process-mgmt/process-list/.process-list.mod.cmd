@@ -1,1 +1,0 @@
-savedcmd_/home/runes/kernel-dev/kernel-dev/basic/process-mgmt/process-list/process-list.mod := printf '%s\n'   process-list.o | awk '!x[$$0]++ { print("/home/runes/kernel-dev/kernel-dev/basic/process-mgmt/process-list/"$$0) }' > /home/runes/kernel-dev/kernel-dev/basic/process-mgmt/process-list/process-list.mod
