@@ -55,3 +55,40 @@ static ssize_t baz_store(struct kobject* kobj, struct kobj_attribute* attr, cons
 
 	return count;
 }
+
+// attribute definition
+static struct kobj_attribute foo_attr = __ATTR(foo, 0644, foo_show, foo_store);
+static struct kobj_attribute bar_attr = __ATTR(bar, 0644, bar_show, bar_store);
+static struct kobj_attribute baz_attr = __ATTR(baz, 0644, baz_show, baz_store);
+
+static struct attribute *attrs[] = {
+	&foo_attr.attr,
+	&bar_attr.attr,
+	&baz_attr.attr,
+	NULL,
+};
+
+static struct attribute_group attr_group = {
+	.attrs = attrs,
+};
+
+static int __init multi_init(void) {
+	int retval;
+	kobj = kobject_create_and_add("multi", kernel_kobj);
+
+	if (!kobj) return -ENOMEM;
+
+	retval = sysfs_create_group(kobj, &attr_group);
+	if (retval) kobject_put(kobj); // reduce reference count
+
+	printk(KERN_INFO "multi-attr: sysfs entries created.\n");
+	return 0;
+}
+
+static void __exit multi_exit(void) {
+	kobject_put(kobj);
+	printk(KERN_INFO "multi-attr: sysfs entries removed.\n");
+}
+
+module_init(multi_init);
+module_exit(multi_exit);
