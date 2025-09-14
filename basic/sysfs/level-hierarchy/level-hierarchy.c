@@ -20,7 +20,7 @@ static int __init level_init(void) {
 	parent_kobj = kobject_create_and_add("parent_kobj", kernel_kobj);
 	if (!parent_kobj) return -ENOMEM;
 
-	child_kobj = kobject_create_and_add("child_kobj", kernel_kobj);
+	child_kobj = kobject_create_and_add("child_kobj", parent_kobj);
 	if (!child_kobj) {
 		kobject_put(parent_kobj);
 		return -ENOMEM;
