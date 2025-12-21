@@ -1,0 +1,1 @@
+savedcmd_/home/runes/kernel-dev/kernel-dev/basic/sysfs/ex-sysfs/modules.order := {   echo /home/runes/kernel-dev/kernel-dev/basic/sysfs/ex-sysfs/ex-sysfs.o; :; } > /home/runes/kernel-dev/kernel-dev/basic/sysfs/ex-sysfs/modules.order

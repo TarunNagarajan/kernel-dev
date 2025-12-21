@@ -1,0 +1,1 @@
+savedcmd_/home/runes/kernel-dev/kernel-dev/basic/sysfs/multi-attr/multi-attr.mod := printf '%s\n'   multi-attr.o | awk '!x[$$0]++ { print("/home/runes/kernel-dev/kernel-dev/basic/sysfs/multi-attr/"$$0) }' > /home/runes/kernel-dev/kernel-dev/basic/sysfs/multi-attr/multi-attr.mod

@@ -1,0 +1,1 @@
+savedcmd_/home/runes/kernel-dev/kernel-dev/basic/sysfs/ex-sysfs/Module.symvers :=  scripts/mod/modpost -M -m       -o /home/runes/kernel-dev/kernel-dev/basic/sysfs/ex-sysfs/Module.symvers -T /home/runes/kernel-dev/kernel-dev/basic/sysfs/ex-sysfs/modules.order -i Module.symvers -e 

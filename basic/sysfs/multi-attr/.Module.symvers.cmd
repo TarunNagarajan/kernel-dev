@@ -1,0 +1,1 @@
+savedcmd_/home/runes/kernel-dev/kernel-dev/basic/sysfs/multi-attr/Module.symvers :=  scripts/mod/modpost -M -m       -o /home/runes/kernel-dev/kernel-dev/basic/sysfs/multi-attr/Module.symvers -T /home/runes/kernel-dev/kernel-dev/basic/sysfs/multi-attr/modules.order -i Module.symvers -e 

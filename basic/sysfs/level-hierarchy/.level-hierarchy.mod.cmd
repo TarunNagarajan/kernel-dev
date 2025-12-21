@@ -1,0 +1,1 @@
+savedcmd_/home/runes/kernel-dev/kernel-dev/basic/sysfs/level-hierarchy/level-hierarchy.mod := printf '%s\n'   level-hierarchy.o | awk '!x[$$0]++ { print("/home/runes/kernel-dev/kernel-dev/basic/sysfs/level-hierarchy/"$$0) }' > /home/runes/kernel-dev/kernel-dev/basic/sysfs/level-hierarchy/level-hierarchy.mod

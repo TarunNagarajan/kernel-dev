@@ -1,0 +1,1 @@
+savedcmd_/home/runes/kernel-dev/kernel-dev/basic/sysfs/ex-sysfs/ex-sysfs.mod := printf '%s\n'   ex-sysfs.o | awk '!x[$$0]++ { print("/home/runes/kernel-dev/kernel-dev/basic/sysfs/ex-sysfs/"$$0) }' > /home/runes/kernel-dev/kernel-dev/basic/sysfs/ex-sysfs/ex-sysfs.mod

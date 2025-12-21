@@ -1,0 +1,1 @@
+savedcmd_/home/runes/kernel-dev/kernel-dev/basic/sysfs/multi-attr/modules.order := {   echo /home/runes/kernel-dev/kernel-dev/basic/sysfs/multi-attr/multi-attr.o; :; } > /home/runes/kernel-dev/kernel-dev/basic/sysfs/multi-attr/modules.order
