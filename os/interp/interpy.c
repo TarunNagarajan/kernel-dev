@@ -17,6 +17,7 @@ typedef struct {
   char* input_file;
   char* output_file;
   char* error_file;
+  char* heredoc_delim;
 } Command;
 
 void prompt() {
@@ -42,6 +43,7 @@ void parse(char* line, Command* cmd) {
   cmd->input_file = NULL;
   cmd->output_file = NULL;
   cmd->error_file = NULL;
+  cmd->heredoc_delim = NULL;
   cmd->append_mode = 0;
   cmd->merge_stderr = 0;
   
@@ -75,12 +77,21 @@ void parse(char* line, Command* cmd) {
       }
     }
 
+    // HERE-DOCUMENT
+    else if (strcmp(tokens[i], "<<") == 0) {
+      if (i + 1 < token_count) {
+        cmd->heredoc_delim = tokens[++i];
+      }
+    }
+
+    // ERROR REDIRECTION
     else if (strcmp(tokens[i], "2>") == 0) {
       if (i + 1 < token_count) {
         cmd->error_file = tokens[++i];
       }
     }
 
+    // MERGE ERROR + OUTPUT 
     else if (strcmp(tokens[i], "2>&1") == 0) {
       cmd->merge_stderr = 1;
     }
@@ -95,7 +106,40 @@ void parse(char* line, Command* cmd) {
   cmd->args[arg_count] = NULL;
 }
 
+void handle_heredoc(Command* cmd) {
+  if (cmd->heredoc_delim == NULL) return;
+
+  FILE* fp = fopen(".tempheredoc", "w");
+  
+  if (!fp) {
+    perror("heredoc");
+    return;
+  }
+
+  char line[MAX_INPUT];
+
+  while (1) {
+    printf("> ");
+    if (fgets(line, sizeof(line), stdin) == NULL) {
+      break;
+    }
+
+    line[strcspn(line, "\n")] = 0;
+
+    if (strcmp(line, cmd->heredoc_delim) == 0) {
+      break;
+    }
+
+    // FILE NEWLINE
+    fprintf(fp, "%s\n", line);
+  } 
+
+  fclose(fp);
+  cmd->input_file = ".tempheredoc";
+}
+
 int execute(Command* cmd) {
+  handle_heredoc(cmd);
   if (cmd->args[0] == NULL) return 1;
   if (strcmp(cmd->args[0], "exit") == 0) {
     exit(0);
@@ -184,6 +228,10 @@ int execute(Command* cmd) {
   } else {
     int status;
     waitpid(pid, &status, 0);
+
+    if (cmd->heredoc_delim != NULL) {
+      unlink(".tempheredoc"); 
+    }
   }
 
   return 1;
