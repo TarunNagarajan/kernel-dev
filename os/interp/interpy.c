@@ -15,6 +15,7 @@ typedef struct {
   char* args[MAX_ARGS];
   char* input_file;
   char* output_file;
+  char* error_file;
 } Command;
 
 void prompt() {
@@ -39,6 +40,7 @@ void parse(char* line, Command* cmd) {
 
   cmd->input_file = NULL;
   cmd->output_file = NULL;
+  cmd->error_file = NULL;
   cmd->append_mode = 0;
   
   char* token = strtok(line, " \t\n");
@@ -68,6 +70,12 @@ void parse(char* line, Command* cmd) {
       if (i + 1 < token_count) {
         cmd->output_file = tokens[++i];
         cmd->append_mode = 1;
+      }
+    }
+
+    else if (strcmp(tokens[i], "2>") == 0) {
+      if (i + 1 < token_count) {
+        cmd->error_file = tokens[++i];
       }
     }
 
@@ -134,6 +142,18 @@ int execute(Command* cmd) {
 
       dup2(fd_out, STDOUT_FILENO);
       close(fd_out);
+    }
+
+    if (cmd->error_file != NULL) {
+      int fd_err = open(cmd->error_file, O_WRONLY | O_CREAT | O_TRUNC, 0644); 
+      
+      if (fd_err < 0) {
+        perror("error redirection");
+        return 1;
+      }
+
+      dup2(fd_err, STDERR_FILENO);
+      close(fd_err);
     }
 
     execvp(cmd->args[0], cmd->args);
