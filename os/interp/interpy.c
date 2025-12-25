@@ -12,6 +12,7 @@
 
 typedef struct {
   int append_mode;
+  int merge_stderr;
   char* args[MAX_ARGS];
   char* input_file;
   char* output_file;
@@ -42,6 +43,7 @@ void parse(char* line, Command* cmd) {
   cmd->output_file = NULL;
   cmd->error_file = NULL;
   cmd->append_mode = 0;
+  cmd->merge_stderr = 0;
   
   char* token = strtok(line, " \t\n");
   while (token != NULL && token_count < MAX_TOKENS) {
@@ -77,6 +79,10 @@ void parse(char* line, Command* cmd) {
       if (i + 1 < token_count) {
         cmd->error_file = tokens[++i];
       }
+    }
+
+    else if (strcmp(tokens[i], "2>&1") == 0) {
+      cmd->merge_stderr = 1;
     }
 
     // ADD IT TO ARGS
@@ -152,8 +158,24 @@ int execute(Command* cmd) {
         return 1;
       }
 
-      dup2(fd_err, STDERR_FILENO);
+      /*
+      
+      if (cmd->merge_stderr) {
+        dup2(STDOUT_FILENO, STDERR_FILENO);
+      } else {
+        dup2(fd_err, STDERR_FILENO);
+      }
+
       close(fd_err);
+
+      */ 
+
+      dup2(fd_err, STDERR_FILENO);
+      close(fd_err);    
+    }
+
+  if (cmd->merge_stderr) {
+      dup2(STDOUT_FILENO, STDERR_FILENO);
     }
 
     execvp(cmd->args[0], cmd->args);
