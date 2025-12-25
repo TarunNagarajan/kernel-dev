@@ -24,7 +24,7 @@ void prompt() {
   // printf("[interpy] ");
   char cwd[MAX_INPUT];
 
-  if (getcwd(cwd, sizeof(cwd)) != NULL) {
+  if ((getcwd(cwd, sizeof(cwd)) != NULL)) {
     printf("[interpy] [%s] ", cwd);
   } else {
     perror("cwd");
